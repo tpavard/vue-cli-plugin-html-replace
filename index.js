@@ -1,15 +1,13 @@
 class VueCliPluginHtmlReplace {
     constructor({
         patterns = [],
-        enable = true
-    } = {}, multipage = false) {
-        if (typeof enable !== "boolean") {
-            throw new Error(`Invalid 'enable' option provided. Got ${typeof enable}, 'boolean' expected.`);
-        }
-
-        if (enable) {
+        enable = true,
+    } = {}, pages = []) {
+        if (enable !== false) {
+            this.index = 0;
+            this.pages = pages;
+            this.multipage = (Array.isArray(pages) && pages.length > 0);
             this.patterns = Array.isArray(patterns) ? patterns : [patterns];
-            this.multipage = multipage;
             this.patterns.map(pattern => this.patternChecker(pattern));
         }
     }
@@ -19,7 +17,7 @@ class VueCliPluginHtmlReplace {
             pattern = null,
             replacement = null,
             includes = null,
-            excludes = null
+            excludes = null,
         } = pttrn;
 
         if (typeof pttrn !== "object") {
@@ -50,7 +48,7 @@ class VueCliPluginHtmlReplace {
             pattern,
             replacement,
             includes: (Array.isArray(includes) || !includes) ? includes : [includes],
-            excludes: (Array.isArray(excludes) || !excludes) ? excludes : [excludes]
+            excludes: (Array.isArray(excludes) || !excludes) ? excludes : [excludes],
         });
     }
 
@@ -69,23 +67,24 @@ class VueCliPluginHtmlReplace {
     }
 
     process(data, callback) {
-        const filename = Object.keys(data.assets.chunks)[1];
+        const filename = this.multipage ? this.pages[this.index++] : this.pages;
+        const isCurrent = Object.keys(data.assets.chunks).includes(filename);
 
         this.patterns.forEach(options => {
             const {
                 pattern,
                 replacement,
                 includes,
-                excludes
+                excludes,
             } = options;
             
             if (
-                !this.multipage ||
+                isCurrent && (!this.multipage ||
                 (!includes && !excludes) ||
                 (this.multipage && (
                     (includes && includes.includes(filename)) ||
                     (excludes && !excludes.includes(filename))
-                ))
+                )))
             ) {
                 data.html = data.html.replace(pattern, replacement);
             }
@@ -94,21 +93,24 @@ class VueCliPluginHtmlReplace {
     }
 }
 
-module.exports = (api, options) => {
-    const {
+module.exports = (api, {
         pluginOptions = {},
-        pages = [],
-    } = options;
+        pages = {},
+    } = {}) => {
 
-    if (
-        pluginOptions.htmlReplace &&
-        Object.keys(pluginOptions.htmlReplace).length > 0
-    ) {
+    const {
+        htmlReplace = {},
+    } = pluginOptions;
+
+    if (Object.keys(htmlReplace).length > 0) {
+        const keys = Object.keys(pages);
+
         api.configureWebpack(config => {
-            config.plugins.push(new VueCliPluginHtmlReplace(
-                pluginOptions.htmlReplace,
-                Object.keys(pages).length > 0
-            ));
+            config
+                .plugins
+                .push(new VueCliPluginHtmlReplace(
+                    htmlReplace,
+                    keys.length > 0 ? keys : "app"));
         });
     }
 };
