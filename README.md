@@ -44,7 +44,7 @@ module.exports = {
                 },
                 {
                     pattern: /<title>(.*)<\/title>/,
-                    replacement: (match, $1) => `<title>${$1} has been replaced.</title>`,
+                    replacement: (match, $1) => `<title>"${$1}" has been replaced.</title>`,
                 },
             ],
         },
@@ -71,16 +71,16 @@ module.exports = {
             patterns: [
                 {
                     pattern: "foo",
-                    replacement: "this pattern will be applied to every page",
+                    replacement: "Any page will be affected by this pattern",
                 },
                 {
                     pattern: /<title>.*<\/title>/,
-                    replacement: "<title>this is the index page</title>",
+                    replacement: "<title>This is the index page</title>",
                     includes: "index",
                 },
                 {
                     pattern: /<title>.*<\/title>/,
-                    replacement: "<title>this is the second page</title>",
+                    replacement: "<title>This is the second page</title>",
                     excludes: ["index" , "app_3"],
                 },
             ],
