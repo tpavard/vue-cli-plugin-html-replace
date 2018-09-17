@@ -1,4 +1,4 @@
-[![npm version](https://badge.fury.io/js/vue-cli-plugin-html-replace.svg)](https://badge.fury.io/js/vue-cli-plugin-html-replace)
+[![npm version](https://badge.fury.io/js/vue-cli-plugin-html-replace.svg)](https://www.npmjs.com/package/vue-cli-plugin-html-replace)
 [![GitHub license](https://img.shields.io/github/license/tpavard/vue-cli-plugin-html-replace.svg)](https://github.com/tpavard/vue-cli-plugin-html-replace/blob/master/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/tpavard/vue-cli-plugin-html-replace.svg)](https://github.com/tpavard/vue-cli-plugin-html-replace/issues)
 
@@ -25,7 +25,7 @@ vue add html-replace
 
 This plugin can be configured by defining `htmlReplace` via the `pluginOptions` in your `vue.config.js`.
 
-The `patterns` argument should be either an object or an array of objects. Each pattern should contain both `pattern` and `replacement` options.
+The `patterns` argument must either be an object or an array of objects. Each pattern must contain both `pattern` and `replacement` options.
 The `enable` parameter is optional.
 
 ```javascript
@@ -54,7 +54,7 @@ module.exports = {
 
 ## Multi-page mode
 
-In case you'll need to prevent some patterns to be applied to some of your pages, you can specify one of either `excludes` or `includes` options. Each entries should be named after the key given for each page. These parameters are optional and will be ignored if you're not building your app in multi-page mode. When not defined in multi-page mode, the patterns are applied to all the pages.
+In case you'd need to prevent patterns to be applied on some of your pages, you can specify either one of `excludes` or `includes` options. Each entries must be named after the key given for each page. These parameters are optional and will be ignored if you're not building your app in multi-page mode, so all patterns would be applied to your templates.
 
 ```javascript
 module.exports = {
@@ -91,9 +91,9 @@ module.exports = {
 
 ## API
 
-- __patterns__ `object | [ object1[, object2[, ...[, objectN ]]]]` Adds some patterns and defines how to replace the match(es). Can be a single object or a list of objects.
+- __patterns__ `object | [ object1[, object2[, ...[, objectN ]]]]` Adds some patterns and defines how to replace the match(es). It can either be a single object or a list of objects.
     - __pattern__ `string | RegExp` A RegExp or string. The match or matches are replaced with the `replacement` value.
-    - __replacement__ `string | function` The string or function that replaces the substring by the specified `pattern` parameter.
-    - __excludes__ _optional_ `string | [ string1[, string2[, ...[, stringN ]]]]` A string or array of strings to exclude some pages for which the pattern would be applied to.
-    - __includes__ _optional_ `string | [ string1[, string2[, ...[, stringN ]]]]` A string or array of strings to include some pages for which the pattern would be applied to.
-- __enable__ _optional_ `(true) | false` Enable/disable the plugin.
+    - __replacement__ `string | function` String or function that replaces the substring by the specified `pattern` parameter.
+    - __excludes__ _optional_ `string | [ string1[, string2[, ...[, stringN ]]]]` A string or array of strings to exclude some pages from a pattern.
+    - __includes__ _optional_ `string | [ string1[, string2[, ...[, stringN ]]]]` A string or array of strings to include the pages for which the pattern would be applied to.
+- __enable__ _optional_ `(true) | false` Enables/disables the plugin.
