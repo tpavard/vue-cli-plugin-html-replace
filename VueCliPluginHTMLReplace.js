@@ -1,13 +1,19 @@
-const { typeOf, isObject } = require("./utils.js");
+const { typeOf, isObject, warn } = require("./utils.js");
 
 module.exports = class VueCliPluginHTMLReplace {
 	constructor(patterns, pages) {
 		this._pages = pages;
 		this._index = Array.isArray(pages) ? null : 0;
 		this._patterns = (Array.isArray(patterns) ? patterns : [patterns])
-			.filter(pattern => isObject(pattern) 
-				&& /string|function/.test(typeof replacement)
-				&& /String|RegExp/.test(typeOf(pattern.match)))
+			.filter(pattern => {
+				if (pattern && pattern.pattern) {
+					warn("'pattern' is deprecated, please use 'match' instead: https://github.com/tpavard/vue-cli-plugin-html-replace#pattern");
+					pattern.match = pattern.pattern;
+				}
+				return isObject(pattern) 
+					&& /string|function/.test(typeof replacement)
+					&& (/String|RegExp/.test(typeOf(pattern.match)));
+			})
 			.map(this._validation);
 	}
 
@@ -40,7 +46,7 @@ module.exports = class VueCliPluginHTMLReplace {
 			match,
 			replacement,
 			includes,
-			excludes,
+			excludes
 		});
 	}
 

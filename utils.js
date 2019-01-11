@@ -7,7 +7,12 @@ function isObject(val) {
 	return typeOf(val) === "Object";
 }
 
+function warn(msg) {
+	console.log("\x1b[31m%s\x1b[0m", `\n${msg}`);
+}
+
 module.exports = {
     typeOf,
-    isObject,
+	isObject,
+	warn,
 };
