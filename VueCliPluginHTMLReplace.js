@@ -1,11 +1,23 @@
 module.exports = class VueCliPluginHTMLReplace {
     constructor(patterns, pages) {
         this._index = 0;
+        this._pages = pages;
         this._multipage = Array.isArray(pages);
-        this._pages = this._multipage ? pages : [pages];
         this._patterns = (Array.isArray(patterns) ? patterns : [patterns])
-            .filter(pattern => pattern.constructor.name === "Object")
+            .filter(this._filter)
             .map(this._validation);
+    }
+
+    // @private
+    static _typeOf(val) {
+        const type = Object.prototype.toString.call(val).substring(8).replace("]", "");
+        return type === "Object" ? val.constructor.name : type;
+    }
+
+    // @private
+    _filter(pattern) {
+        return this._typeOf(pattern) === "Object" && /string|function/.test(typeof replacement)
+            && (typeof pattern.match === "string" || this._typeOf(pattern.match) === "RegExp");
     }
 
     // @private
@@ -15,19 +27,18 @@ module.exports = class VueCliPluginHTMLReplace {
         includes,
         excludes,
     }) {
-        if (typeof match !== "string" && match.constructor.name !== "RegExp") {
-            throw new TypeError(`Invalid 'match' option provided, 'String' or 'RegExp' expected.`);
-        }
+        if (this._multipage) {
+            if (typeof includes === "string") {
+                includes = [includes];
+            } else if (typeof excludes === "string") {
+                excludes = [excludes];
+            } else {
+                includes = Array.isArray(includes) ? includes.filter(val => typeof val === "string") : null;
+                excludes = Array.isArray(excludes) ? excludes.filter(val => typeof val === "string") : null;
+            }
 
-        if (this._multipage && (includes || excludes)) {
-            if (includes) {
-                includes = (Array.isArray(includes) ? includes : [includes])
-                    .filter(val => typeof val === "string");
+            if (includes != null && excludes != null) {
                 excludes = null;
-            } else if (excludes) {
-                excludes = (Array.isArray(excludes) ? excludes : [excludes])
-                    .filter(val => typeof val === "string");
-                includes = null;
             }
         } else {
             includes = null;
@@ -36,7 +47,7 @@ module.exports = class VueCliPluginHTMLReplace {
 
         return ({
             match,
-            replacement: (/string|function/.test(typeof replacement) ? replacement : ""),
+            replacement,
             includes,
             excludes,
         });
@@ -44,7 +55,7 @@ module.exports = class VueCliPluginHTMLReplace {
 
     // @private
     _process(data, callback) {
-        const filename = this._pages[this._multipage ? this._index++ : this._index];
+        const filename = this._multipage ? this._pages[this._index++] : this.pages;
         const isCurrent = Object.keys(data.assets.chunks).includes(filename);
 
         this._patterns.forEach(({
