@@ -98,15 +98,15 @@ module.exports = {
 ## API
 
 | Name | Type | Default | Description |
-| --- | --- | --- | --- |
+| :--: | :--: | :--: | --- |
 | `enable` | `Boolean` | `true` | Enables/disables the plugin. |
 | `patterns` | `Object`&nbsp;\|&nbsp;`Array<Object>` | `[]` | Defines some patterns and how to replace their corresponding matches. |
 
 ### Pattern
 
 | Name | Type | Default | Description |
-| --- | --- | --- | --- |
+| :--: | :--: | :--: | --- |
 | `match` | `String`&nbsp;\|&nbsp;`RegExp` | `null` | Defines the matches to be replaced. When missing, the pattern will be ignored. |
 | `replacement` | `String`&nbsp;\|&nbsp;`Function:String` | `null` | Specifies the value with which to replace the matches. When missing, the pattern will be ignored. |
-| `includes` | `String`&nbsp;\|&nbsp;`Array<String>` | `null` | Includes the pages for which the pattern will be applied to when deploying your app in multi-page mode. Each entry must be named after the key of a page. |
+| `includes` | `String`&nbsp;\|&nbsp;`Array<String>` | `null` | Includes the pages for which the pattern will be applied to, when deploying your app in multi-page mode. Each entry must be named after the key of a page. |
 | `excludes` | `String`&nbsp;\|&nbsp;`Array<String>` | `null` | Prevents the pattern to be applied to specific pages in multi-page mode. Each entry must be named after the key of a page. This option will be ignored if `includes` has already been set. |
