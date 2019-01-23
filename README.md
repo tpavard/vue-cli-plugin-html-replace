@@ -99,14 +99,14 @@ module.exports = {
 
 ## API
 
-### Global :
+### Global
 
 | Name | Type | Default | Description |
 | :--: | :--: | :--: | --- |
 | `enable` | `Boolean` | `true` | Enables/disables the plugin. |
 | `patterns` | `Object`&nbsp;\|&nbsp;`Array<Object>` | `[]` | Defines some patterns and how to replace their corresponding matches. |
 
-### Pattern :
+### Pattern
 
 | Name | Type | Default | Description |
 | :--: | :--: | :--: | --- |
