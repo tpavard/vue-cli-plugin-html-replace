@@ -58,9 +58,9 @@ module.exports = {
 
 ### Multi-page mode
 
-In case you'd need to prevent patterns to be applied on some of your pages, you can specify either one of `excludes` or `includes` options. If both options are set, `excludes` will be ignored.
+In case you'd need to prevent patterns to be applied to some of your pages, you can specify either one of `excludes` or `includes` options. If both options are set, then `excludes` will be ignored.
 
-Each entries must be named after the key given for each page. These properties are optional and will be ignored if you're not building your app in multi-page mode, so all patterns would be applied to your templates.
+Each entry must be named after the key given for the corresponding page(s). These properties are optional and will be ignored when you're not building your app in multi-page mode. Thus all the patterns would be applied to your templates.
 
 ```javascript
 module.exports = {
@@ -100,13 +100,13 @@ module.exports = {
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `enable` | `Boolean` | `true` | Enables/disables the plugin. |
-| `patterns` | `Object`&nbsp;\|&nbsp;`Array<Object>` | `[]` | Defines patterns and how to replace the matches. |
+| `patterns` | `Object`&nbsp;\|&nbsp;`Array<Object>` | `[]` | Defines some patterns and how to replace their corresponding matches. |
 
 ### Pattern
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `match` | `String`&nbsp;\|&nbsp;`RegExp` | `null` | The matches to be replaced. |
-| `replacement` | `String`&nbsp;\|&nbsp;`Function:String` | `null` | Value with which to replace the matches. |
-| `includes` | `String`&nbsp;\|&nbsp;`Array<String>` | `null` | Includes the pages for which the pattern will be applied to when deploying your app in multi-page mode. |
-| `excludes` | `String`&nbsp;\|&nbsp;`Array<String>` | `null` | Prevents the pattern to be applied to specific pages in multi-page mode. This option will be ignored if `includes` is already set. |
+| `match` | `String`&nbsp;\|&nbsp;`RegExp` | `null` | Defines the matches to be replaced. When missing, the pattern will be ignored. |
+| `replacement` | `String`&nbsp;\|&nbsp;`Function:String` | `null` | Specifies the value with which to replace the matches. When missing, the pattern will be ignored. |
+| `includes` | `String`&nbsp;\|&nbsp;`Array<String>` | `null` | Includes the pages for which the pattern will be applied to when deploying your app in multi-page mode. Each entry must be named after the key of a page. |
+| `excludes` | `String`&nbsp;\|&nbsp;`Array<String>` | `null` | Prevents the pattern to be applied to specific pages in multi-page mode. Each entry must be named after the key of a page. This option will be ignored if `includes` has already been set. |
