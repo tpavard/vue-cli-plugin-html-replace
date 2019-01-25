@@ -15,7 +15,7 @@ function warn(msg) {
 }
 
 module.exports = {
-    typeOf,
+	typeOf,
 	isObject,
 	warn,
 };
