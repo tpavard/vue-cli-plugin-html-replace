@@ -9,13 +9,13 @@ module.exports = (api, {
 		patterns = [],
 		enable = true,
 	} = pluginOptions.htmlReplace || {};
-
+	
 	if (isObject(pluginOptions.htmlReplace) && enable === true
-		&& (Array.isArray(patterns) || isObject(patterns))) {
+	&& (Array.isArray(patterns) || isObject(patterns))) {
 		const keys = Object.keys(pages);
-
-		api.configureWebpack(config => {
-			config.plugins.push(new VueCliPluginHTMLReplace(patterns, keys.length ? keys : "app"));
+		
+		api.configureWebpack(({ plugins }) => {
+			plugins.push(new VueCliPluginHTMLReplace(patterns, keys.length ? keys : "app"));
 		});
 	}
 };

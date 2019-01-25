@@ -3,18 +3,18 @@ const { typeOf, isObject, warn } = require("./utils.js");
 module.exports = class VueCliPluginHTMLReplace {
 	constructor(patterns, pages) {
 		this._pages = pages;
-		this._index = Array.isArray(pages) ? null : 0;
+		this._index = Array.isArray(pages) ? 0 : null;
 		this._patterns = (Array.isArray(patterns) ? patterns : [patterns])
 			.filter(pattern => {
 				if (pattern && pattern.pattern) {
-					warn("'pattern' is deprecated, please use 'match' instead: https://github.com/tpavard/vue-cli-plugin-html-replace#pattern");
+					warn("The 'pattern' option is deprecated. Please use 'match' instead: https://github.com/tpavard/vue-cli-plugin-html-replace#pattern");
 					pattern.match = pattern.pattern;
 				}
-				return isObject(pattern) 
-					&& /string|function/.test(typeof replacement)
-					&& (/String|RegExp/.test(typeOf(pattern.match)));
+				return isObject(pattern)
+					&& /String|Function/.test(typeOf(pattern.replacement))
+					&& /String|RegExp/.test(typeOf(pattern.match));
 			})
-			.map(this._validation);
+			.map(pattern => this._validation(pattern));
 	}
 
 	// @private
@@ -52,7 +52,7 @@ module.exports = class VueCliPluginHTMLReplace {
 
 	// @private
 	_process(data, callback) {
-		const filename = this._index === null ? this.pages : this._pages[this._index++];
+		const filename = this._index === null ? this._pages : this._pages[this._index++];
 		const isCurrent = Object.keys(data.assets.chunks).includes(filename);
 
 		this._patterns.forEach(({

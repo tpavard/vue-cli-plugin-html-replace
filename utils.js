@@ -1,6 +1,9 @@
-function typeOf(val) {
-	const type = Object.prototype.toString.call(val).substring(8).replace("]", "");
-	return type === "Object" ? val.constructor.name : type;
+function typeOf(value) {
+	if (value === null) return "Null";
+	let type = typeof value;
+	if (type !== "object") return `${type.charAt(0).toUpperCase()}${type.slice(1)}`;
+	type = Object.prototype.toString.call(value).slice(8, -1);
+	return type === "Object" ? value.constructor.name : type;
 }
 
 function isObject(val) {
