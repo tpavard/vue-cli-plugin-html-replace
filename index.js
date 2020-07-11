@@ -31,8 +31,10 @@ function getType(value) {
 
 function formatRelation(value) {
 	if (typeof value === "string") return [value];
-	return Array.isArray(value) && value.length && value.every(item => typeof item === "string")
-		? value : null;
+	return Array.isArray(value)
+		&& value.length
+		&& value.every(item => typeof item === "string")
+			? value : null;
 }
 
 function format(patterns, isMultipage) {

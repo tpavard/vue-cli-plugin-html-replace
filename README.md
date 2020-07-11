@@ -106,7 +106,7 @@ module.exports = {
 | :--: | :--: | :--: | --- |
 | `enable` | `Boolean` | `true` | Enables/disables the plugin. |
 | `silent` | `Boolean` | `false` | Enables/disables silent mode. When enabled, errors are ignored and invalid patterns won't be applied. |
-| `patterns` | `Object`&nbsp;\|&nbsp;`Array<Object>` | `[]` | Defines some patterns and how to replace their corresponding matches. |
+| `patterns` | `Object`&nbsp;\|&nbsp;`Object[]` | `[]` | Defines some patterns and how to replace their corresponding matches. |
 
 ### Pattern
 
@@ -114,5 +114,5 @@ module.exports = {
 | :--: | :--: | :--: | --- |
 | `match` | `String`&nbsp;\|&nbsp;`RegExp` | `null` | Defines the matches to be replaced. |
 | `replacement` | `String`&nbsp;\|&nbsp;`Function:String` | `null` | Specifies the value with which to replace the matches. |
-| `includes` | `String`&nbsp;\|&nbsp;`Array<String>` | `null` | Includes the pages for which the pattern will be applied to, when deploying your app in multi-page mode. Each entry must be named after the key of a page. |
-| `excludes` | `String`&nbsp;\|&nbsp;`Array<String>` | `null` | Prevents the pattern to be applied to specific pages in multi-page mode. Each entry must be named after the key of a page. This option will be ignored if `includes` has already been set. |
+| `includes` | `String`&nbsp;\|&nbsp;`String[]` | `null` | Includes the pages for which the pattern will be applied to, when deploying your app in multi-page mode. Each entry must be named after the key of a page. |
+| `excludes` | `String`&nbsp;\|&nbsp;`String[]` | `null` | Prevents the pattern to be applied to specific pages in multi-page mode. Each entry must be named after the key of a page. This option will be ignored if `includes` has already been set. |
